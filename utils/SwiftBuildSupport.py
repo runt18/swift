@@ -112,7 +112,9 @@ def check_output(args, print_command=False, verbose=False):
         sys.exit(1)
 
 
-def _load_preset_files_impl(preset_file_names, substitutions={}):
+def _load_preset_files_impl(preset_file_names, substitutions=None):
+    if substitutions is None:
+        substitutions = {}
     config = ConfigParser.SafeConfigParser(substitutions, allow_no_value=True)
     if config.read(preset_file_names) == []:
         print_with_argv0(
