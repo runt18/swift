@@ -90,16 +90,16 @@ class SwiftBenchHarness:
       self.timeLimit = args.timelimit
     if args.sampletime and args.sampletime > 0:
       self.minSampleTime = args.sampletime
-    self.log("Sources: %s." % ', '.join(self.sources), 3)
-    self.log("Compiler: %s." % self.compiler, 3)
-    self.log("Opt flags: %s." % ', '.join(self.optFlags), 3)
-    self.log("Verbosity: %s." % self.verboseLevel, 3)
-    self.log("Time limit: %s." % self.timeLimit, 3)
-    self.log("Min sample time: %s." % self.minSampleTime, 3)
+    self.log("Sources: {0!s}.".format(', '.join(self.sources)), 3)
+    self.log("Compiler: {0!s}.".format(self.compiler), 3)
+    self.log("Opt flags: {0!s}.".format(', '.join(self.optFlags)), 3)
+    self.log("Verbosity: {0!s}.".format(self.verboseLevel), 3)
+    self.log("Time limit: {0!s}.".format(self.timeLimit), 3)
+    self.log("Min sample time: {0!s}.".format(self.minSampleTime), 3)
 
 
   def processSource(self, name):
-    self.log("Processing source file: %s." % name, 2)
+    self.log("Processing source file: {0!s}.".format(name), 2)
 
     header = """
 @_silgen_name("mach_absolute_time") func __mach_absolute_time__() -> UInt64
@@ -174,7 +174,7 @@ main()
         output += l
         benchName = m.group(1)
         # TODO: Keep track of the line number as well
-        self.log("Benchmark found: %s" % benchName, 3)
+        self.log("Benchmark found: {0!s}".format(benchName), 3)
         self.tests[name+":"+benchName] = Test(benchName, name, "", "")
         testNames.append(benchName)
         if m.group(2):
@@ -196,7 +196,7 @@ main()
 
 
   def processSources(self):
-    self.log("Processing sources: %s." % self.sources, 2)
+    self.log("Processing sources: {0!s}.".format(self.sources), 2)
     for s in self.sources:
       self.processSource(s)
 
@@ -291,10 +291,10 @@ extern "C" int64_t opaqueGetInt64(int64_t x) { return x; }
     (numSamples, iterScale) = self.computeItersNumber(name)
     if (numSamples, iterScale) == (0, 0):
       self.tests[name].status = "CAN'T MEASURE"
-      self.tests[name].output = "Can't find number of iterations for the test to last longer than %d ms." % self.minIterTime
+      self.tests[name].output = "Can't find number of iterations for the test to last longer than {0:d} ms.".format(self.minIterTime)
       return
     samples = []
-    self.log("Running bench: %s, numsamples: %d" % (name, numSamples), 2)
+    self.log("Running bench: {0!s}, numsamples: {1:d}".format(name, numSamples), 2)
     for i in range(0,numSamples):
       try:
         r = self.runCommand([self.tests[name].binary, str(iterScale),
@@ -326,12 +326,12 @@ class Test:
     self.binary = binary
     self.status = ""
   def Print(self):
-    print("NAME: %s" % self.name)
-    print("SOURCE: %s" % self.source)
+    print("NAME: {0!s}".format(self.name))
+    print("SOURCE: {0!s}".format(self.source))
     if self.status == "":
       self.results.Print()
     else:
-      print("STATUS: %s" % self.status)
+      print("STATUS: {0!s}".format(self.status))
       print("OUTPUT:")
       print(self.output)
       print("END OF OUTPUT")
@@ -353,13 +353,13 @@ class TestResults:
     self.int_min = self.avg - self.err*1.96
     self.int_max = self.avg + self.err*1.96
   def Print(self):
-    print("SAMPLES: %d" % len(self.samples))
-    print("MIN: %3.2e" % self.minimum)
-    print("MAX: %3.2e" % self.maximum)
-    print("AVG: %3.2e" % self.avg)
-    print("STD: %3.2e" % self.std)
-    print("ERR: %3.2e (%2.1f%%)" % (self.err, self.err*100/self.avg))
-    print("CONF INT 0.95: (%3.2e, %3.2e)" % (self.int_min, self.int_max))
+    print("SAMPLES: {0:d}".format(len(self.samples)))
+    print("MIN: {0:3.2e}".format(self.minimum))
+    print("MAX: {0:3.2e}".format(self.maximum))
+    print("AVG: {0:3.2e}".format(self.avg))
+    print("STD: {0:3.2e}".format(self.std))
+    print("ERR: {0:3.2e} ({1:2.1f}%)".format(self.err, self.err*100/self.avg))
+    print("CONF INT 0.95: ({0:3.2e}, {1:3.2e})".format(self.int_min, self.int_max))
     print("")
 
 

@@ -538,7 +538,7 @@ class ExecutionContext:
                 # We can only insert the line directive at a line break
                 if len(self.resultText) == 0 \
                    or self.resultText[-1].endswith('\n'):
-                    self.resultText.append('%s %d "%s"\n' % (self.lineDirective, line + 1, file))
+                    self.resultText.append('{0!s} {1:d} "{2!s}"\n'.format(self.lineDirective, line + 1, file))
                 # But if the new text contains any line breaks, we can create one
                 elif '\n' in text:
                     i = text.find('\n')
@@ -636,7 +636,7 @@ class Code(ASTNode):
         else:
             while context.tokenKind == 'gybLinesOpen':
                 source, sourceLineCount = accumulateCode()
-                source += '    __children__[%d].execute(__context__)\n' % len(self.children)
+                source += '    __children__[{0:d}].execute(__context__)\n'.format(len(self.children))
                 sourceLineCount += 1
 
                 self.children += (Block(context),)

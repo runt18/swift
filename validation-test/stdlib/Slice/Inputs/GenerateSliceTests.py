@@ -17,7 +17,7 @@ for traversal, base_kind, mutable in itertools.product(
           ('WithSuffix', '[]', '[ -9999, -9998, -9997 ]'),
           ('WithPrefixAndSuffix', '[ -9999, -9998, -9997, -9996, -9995 ]', '[ -9994, -9993, -9992 ]')
         ]:
-            Base = '%s%s%sCollection' % (base_kind, traversal, 'Mutable' if mutable else '')
+            Base = '{0!s}{1!s}{2!s}Collection'.format(base_kind, traversal, 'Mutable' if mutable else '')
             testFilename = WrapperType + '_Of_' + Base + '_' + name + '.swift'
             with open(testFilename + '.gyb', 'w') as testFile:
                 testFile.write("""

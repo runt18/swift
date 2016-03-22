@@ -33,10 +33,10 @@ for l in args.input.readlines():
         have_match = True
         var = match.groups()[0]
         if var not in seen_variables:
-            l = l.replace('%' + var, '[[VAR_%s:%%[0-9]+]]' % var)
+            l = l.replace('%' + var, '[[VAR_{0!s}:%[0-9]+]]'.format(var))
             seen_variables.add(var)
         else:
-            l = l.replace('%' + var, '[[VAR_%s]]' % var)
+            l = l.replace('%' + var, '[[VAR_{0!s}]]'.format(var))
     if have_match:
         l = '// CHECK: ' + l
     args.o.write(l)

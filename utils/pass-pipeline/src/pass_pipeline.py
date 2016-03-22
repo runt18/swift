@@ -2,7 +2,7 @@ class Pass(object):
     def __init__(self, name):
         self.name = name
     def __repr__(self):
-        return "<pass name=%s>" % self.name
+        return "<pass name={0!s}>".format(self.name)
 
 PassListId = 0
 class PassList(object):
@@ -13,7 +13,7 @@ class PassList(object):
         self.transforms = transforms
 
     def __repr__(self):
-        return "<passlist id=%s values=%s>" % (self.pass_id, self.transforms)
+        return "<passlist id={0!s} values={1!s}>".format(self.pass_id, self.transforms)
 
     def __iter__(self):
         return self.transforms.__iter__()
@@ -46,7 +46,7 @@ class PassPipeline(object):
         self.pass_list.addPass(p)
 
     def __repr__(self):
-        return "<passpipeline values=%s>" % self.pass_list
+        return "<passpipeline values={0!s}>".format(self.pass_list)
 
     def generate(self):
         x = [self.identifier, self.action['name'], self.action.get('count', 0)]

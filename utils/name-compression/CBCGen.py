@@ -152,7 +152,7 @@ class Trie:
     sb = ""
     space = " " * depth
     for opt,node in self.children.iteritems():
-      sb += space + "if ((%d < n) && (str[%d] == '%s')) {\n" % (depth, depth, opt)
+      sb += space + "if (({0:d} < n) && (str[{1:d}] == '{2!s}')) {{\n".format(depth, depth, opt)
       sb += space + node.generate(depth + 1)
       sb += space + "}\n"
     if self.TableIdx:
@@ -181,11 +181,11 @@ print "// Processing text files:", " ".join([os.path.basename(f) for f in filena
 
 print "namespace CBC {"
 print "// The charset that the fragment indices can use:"
-print "const unsigned CharsetLength = %d;" % len(charset)
-print "const char *Charset = \"%s\";" % charset
+print "const unsigned CharsetLength = {0:d};".format(len(charset))
+print "const char *Charset = \"{0!s}\";".format(charset)
 print "const int IndexOfChar[] =  {", ",".join(index_of_char),"};"
-print "const char EscapeChar0 = '%s';" % escape_char0
-print "const char EscapeChar1 = '%s';" % escape_char1
+print "const char EscapeChar0 = '{0!s}';".format(escape_char0)
+print "const char EscapeChar1 = '{0!s}';".format(escape_char1)
 print "// The Fragments:"
 print "const unsigned NumFragments = ", len(string_key_list), ";"
 print "const char* CodeBook[] = {", ",".join(string_key_list),"};"

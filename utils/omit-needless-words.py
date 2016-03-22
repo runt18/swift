@@ -50,17 +50,17 @@ def main():
     # Figure out the SDK root for the requested SDK
     sdkroot = subprocess.check_output(['xcrun', '--show-sdk-path', '--sdk', args.sdk]).rstrip()
     if not args.quiet:
-        print('SDK Root = %s' % (sdkroot))
+        print('SDK Root = {0!s}'.format((sdkroot)))
 
-    swift_ide_test_cmd = [args.swift_ide_test, '-print-module', '-source-filename', source_filename, '-sdk', sdkroot, '-target', args.target, '-module-print-skip-overlay', '-skip-unavailable', '-module-print-submodules', '-skip-imports', '-module-to-print=%s' % (args.module)]
+    swift_ide_test_cmd = [args.swift_ide_test, '-print-module', '-source-filename', source_filename, '-sdk', sdkroot, '-target', args.target, '-module-print-skip-overlay', '-skip-unavailable', '-module-print-submodules', '-skip-imports', '-module-to-print={0!s}'.format((args.module))]
     omit_needless_words_args = ['-enable-omit-needless-words', '-enable-infer-default-arguments']
 
     # Determine the output files.
     # No good way with argparse to set default value based on dependency of other arg.
     if not args.before_file:
-        args.before_file = '%s.before.txt' % (args.module)
+        args.before_file = '{0!s}.before.txt'.format((args.module))
     if not args.after_file:
-        args.after_file = '%s.after.txt' % (args.module)
+        args.after_file = '{0!s}.after.txt'.format((args.module))
 
     # Create a .swift file we can feed into swift-ide-test
     subprocess.call(['touch', source_filename])
@@ -68,13 +68,13 @@ def main():
     if not args.only_after:
       # Print the interface without omitting needless words
       if not args.quiet:
-          print('Writing %s...' % args.before_file)
+          print('Writing {0!s}...'.format(args.before_file))
       output_command_result_to_file(swift_ide_test_cmd, args.before_file)
 
     if not args.only_before:
       # Print the interface omitting needless words
       if not args.quiet:
-          print('Writing %s...' % args.after_file)
+          print('Writing {0!s}...'.format(args.after_file))
       output_command_result_to_file(swift_ide_test_cmd + omit_needless_words_args, args.after_file)
 
     # Remove the .swift file we fed into swift-ide-test

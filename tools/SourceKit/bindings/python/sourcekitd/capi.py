@@ -84,7 +84,7 @@ class Object(object):
             for v in obj:
                 conf.lib.sourcekitd_request_array_set_value(self, -1, Object(v))
         else:
-            raise ValueError("wrong init parameter (%s)" % type(obj))
+            raise ValueError("wrong init parameter ({0!s})".format(type(obj)))
         self._as_parameter_ = self._obj
 
     def from_param(obj):
@@ -105,7 +105,7 @@ class Response(object):
         if isinstance(obj, c_object_p):
             self._obj = self._as_parameter_ = obj
         else:
-            raise ValueError("wrong init parameter (%s)" % type(obj))
+            raise ValueError("wrong init parameter ({0!s})".format(type(obj)))
 
     def get_payload(self):
         return conf.lib.sourcekitd_response_get_value(self)
@@ -132,7 +132,7 @@ class UIdent(object):
         elif isinstance(obj, str):
             self._obj = conf.lib.sourcekitd_uid_get_from_cstr(obj)
         else:
-            raise ValueError("wrong init parameter (%s)" % type(obj))
+            raise ValueError("wrong init parameter ({0!s})".format(type(obj)))
         self._as_parameter_ = self._obj
 
     def __str__(self):
@@ -142,7 +142,7 @@ class UIdent(object):
         return obj._as_parameter_
 
     def __repr__(self):
-        return "UIdent('%s')" % self.__str__()
+        return "UIdent('{0!s}')".format(self.__str__())
 
     def _ptr(self):
         return addressof(self._obj.contents)
@@ -194,7 +194,7 @@ class ErrorKind(object):
         return ErrorKind._kinds[id]
 
     def __repr__(self):
-        return 'ErrorKind.%s' % (self.name,)
+        return 'ErrorKind.{0!s}'.format(self.name)
 
 ErrorKind.CONNECTION_INTERRUPTED = ErrorKind(1)
 ErrorKind.REQUEST_INVALID = ErrorKind(2)
@@ -277,7 +277,7 @@ class VariantType(object):
         return VariantType._kinds[id]
 
     def __repr__(self):
-        return 'VariantType.%s' % (self.name,)
+        return 'VariantType.{0!s}'.format(self.name)
 
 VariantType.NULL = VariantType(0)
 VariantType.DICTIONARY = VariantType(1)
