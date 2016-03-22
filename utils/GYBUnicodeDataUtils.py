@@ -533,9 +533,9 @@ def get_grapheme_cluster_break_tests_as_UTF8(grapheme_break_test_file_name):
                 # and test separately that we handle ill-formed UTF-8 sequences.
                 if code_point >= 0xd800 and code_point <= 0xdfff:
                     code_point = 0x200b
-                code_point = (b'\U%(cp)08x' % { b'cp': code_point }).decode('unicode_escape', 'strict')
+                code_point = (b'\U{cp:08x}'.format(**{ b'cp': code_point })).decode('unicode_escape', 'strict')
                 as_UTF8_bytes = bytearray(code_point.encode('utf8', 'strict'))
-                as_UTF8_escaped = ''.join(['\\x%(byte)02x' % { 'byte': byte } for byte in as_UTF8_bytes])
+                as_UTF8_escaped = ''.join(['\\x{byte:02x}'.format(**{ 'byte': byte }) for byte in as_UTF8_bytes])
                 test += as_UTF8_escaped
                 curr_bytes += len(as_UTF8_bytes)
 

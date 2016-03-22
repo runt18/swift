@@ -91,14 +91,14 @@ def parseGenericOperator(m):
         protocol = m2.group(2)
         
         # we're only interested if we can find a function parameter of that type
-        if not re.search(r':\s*%s\s*[,)]' % typeParameter, functionParams): continue
+        if not re.search(r':\s*{0!s}\s*[,)]'.format(typeParameter), functionParams): continue
 
         # Make some replacements in the signature to limit the graph size
         letterTau = '&#x3c4;'
         letterPi = '&#x3c0;'
         abbreviatedSignature = re.sub(
-            r'\b%s\b' % protocol, letterPi,
-            re.sub(r'\b%s\b' % typeParameter, letterTau, genericOperator))
+            r'\b{0!s}\b'.format(protocol), letterPi,
+            re.sub(r'\b{0!s}\b'.format(typeParameter), letterTau, genericOperator))
 
         genericOperators.setdefault(protocol, set()).add(abbreviatedSignature)
 
@@ -148,10 +148,10 @@ print('  edge [dir="back"];')
 print('  node [shape = box, fontname = Helvetica, fontsize = 10];')
 
 for c in sorted(clusters):
-    print('  subgraph "cluster_%s" {' % c)
+    print('  subgraph "cluster_{0!s}" {{'.format(c))
     for (s, t) in sorted(clusterEdges):
         if s in clusters[c]:
-            print('%s -> %s [weight=100];' % (s, t))
+            print('{0!s} -> {1!s} [weight=100];'.format(s, t))
     print('}')
 
 for node in sorted(graph.keys()):
@@ -161,16 +161,16 @@ for node in sorted(graph.keys()):
     divider = '<HR/>\n' if len(requirements) != 0 and len(generics) != 0 else ''
     
     label = node if len(requirements + generics) == 0 else (
-        '\n<TABLE BORDER="0">\n<TR><TD>\n%s\n</TD></TR><HR/>\n%s%s%s</TABLE>\n' % (
+        '\n<TABLE BORDER="0">\n<TR><TD>\n{0!s}\n</TD></TR><HR/>\n{1!s}{2!s}{3!s}</TABLE>\n'.format(
         node,
-        '\n'.join('<TR><TD>%s</TD></TR>' % r for r in requirements),
+        '\n'.join('<TR><TD>{0!s}</TD></TR>'.format(r) for r in requirements),
         divider,
-        '\n'.join('<TR><TD>%s</TD></TR>' % g for g in generics)))
+        '\n'.join('<TR><TD>{0!s}</TD></TR>'.format(g) for g in generics)))
     
     
     print(interpolate('    %(node)s [style = %(style)s, label=<%(label)s>]'))
 for (parent, children) in sorted(graph.items()):
-    print('    %s -> {' % parent, end=' ')
+    print('    {0!s} -> {{'.format(parent), end=' ')
     print('; '.join(
         sorted(child for child in children if not (parent, child) in clusterEdges)), end=' ')
     print('}')

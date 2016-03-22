@@ -17,8 +17,8 @@ PASSES = [p.name for p in passes.PASSES]
 DEFAULT_PRESENTS = "--preset=buildbot_incremental_extra_swift_args,tools=RA,stdlib=RD"
 
 def run_build_script_with_data_file(build_script, data_file, verbose=False):
-    build_script_args = [build_script, DEFAULT_PRESENTS, 'extra_swift_args=^Swift$;-Xfrontend\;-external-pass-pipeline-filename\;-Xfrontend\;%s' % data_file]
-    sys.stdout.write("Running build script with: %s..." % ' '.join(build_script_args))
+    build_script_args = [build_script, DEFAULT_PRESENTS, 'extra_swift_args=^Swift$;-Xfrontend\;-external-pass-pipeline-filename\;-Xfrontend\;{0!s}'.format(data_file)]
+    sys.stdout.write("Running build script with: {0!s}...".format(' '.join(build_script_args)))
     sys.stdout.flush()
 
     if not verbose:
@@ -50,14 +50,14 @@ def build_disable_slice_pipelines(**kwargs):
 
     for i in pipeline_range:
         pipeline_args = get_pipeline_args(kwargs['pipeline_script'], pipeline_range[:i+1])
-        data_file = os.path.join(kwargs['output_dir'], "pipeline-slice-%.2d-disabled-pipeline.json" % i)
+        data_file = os.path.join(kwargs['output_dir'], "pipeline-slice-{0:.2d}-disabled-pipeline.json".format(i))
         with open(data_file, 'w') as f:
             f.write(subprocess.check_output(pipeline_args))
         run_build_script_with_data_file(kwargs['build_script'], data_file, verbose=kwargs['verbose'])
 
 def build_disable_individual_pass(**kwargs):
     pass_name = kwargs['pass_name']
-    data_file = os.path.join(kwargs['output_dir'], "%s-disabled-pass.json" % pass_name)
+    data_file = os.path.join(kwargs['output_dir'], "{0!s}-disabled-pass.json".format(pass_name))
     with open(data_file, 'w') as f:
         f.write(subprocess.check_output([kwargs['pipeline_script'], '--disable-pass', pass_name]))
     run_build_script_with_data_file(kwargs['build_script'], data_file, verbose=kwargs['verbose'])

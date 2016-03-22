@@ -154,10 +154,10 @@ def compareSizes(oldSizes, newSizes, nameKey, title):
     newSize = newSizes[nameKey]
     if oldSize is not None and newSize is not None:
         if oldSize != 0:
-            perc = "%.1f%%" % ((1.0 - float(newSize) / float(oldSize)) * 100.0)
+            perc = "{0:.1f}%".format(((1.0 - float(newSize) / float(oldSize)) * 100.0))
         else:
             perc = "- "
-        print("%-26s%16s: %8d  %8d  %6s" % (title, nameKey, oldSize, newSize, perc))
+        print("{0:<26!s}{1:16!s}: {2:8d}  {3:8d}  {4:6!s}".format(title, nameKey, oldSize, newSize, perc))
 
 
 def compareSizesOfFile(oldFiles, newFiles, allSections, listCategories):
@@ -204,7 +204,7 @@ def listFunctionSizes(sizeArray):
     for pair in sorted(sizeArray, key=itemgetter(1)):
         name = pair[0]
         size = pair[1]
-        return "%8d %s" % (size, name)
+        return "{0:8d} {1!s}".format(size, name)
 
 
 def compareFunctionSizes(oldFiles, newFiles):
@@ -252,7 +252,7 @@ def compareFunctionSizes(oldFiles, newFiles):
     if inBoth:
         sizeIncrease = 0
         sizeDecrease = 0
-        print("%8s %8s %8s" % ("old", "new", "diff"))
+        print("{0:8!s} {1:8!s} {2:8!s}".format("old", "new", "diff"))
         for triple in sorted(inBoth, key=lambda tup: (tup[2] - tup[1], tup[1])):
             func = triple[0]
             oldSize = triple[1]
@@ -264,7 +264,7 @@ def compareFunctionSizes(oldFiles, newFiles):
                 sizeDecrease -= diff
             if diff == 0:
                 inBothSize += newSize
-            print("%8d %8d %8d %s" %(oldSize, newSize, newSize - oldSize, func))
+            print("{0:8d} {1:8d} {2:8d} {3!s}".format(oldSize, newSize, newSize - oldSize, func))
         print("Total size of functions with the same size in both files: {}".format(inBothSize))
         print("Total size of functions that got smaller: {}".format(sizeDecrease))
         print("Total size of functions that got bigger: {}".format(sizeIncrease))

@@ -24,7 +24,7 @@ class SourceKitError(Exception):
         self.msg = message
 
     def __str__(self):
-        return "%s (%s)" % (self.msg, self.kind)
+        return "{0!s} ({1!s})".format(self.msg, self.kind)
 
 def syntax_annotate_text(text):
     req = { 'key.request': capi.UIdent('source.request.editor.open'),

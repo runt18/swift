@@ -181,7 +181,7 @@ How to specify files:
         else:
             compareFunctionSizes(oldFiles, newFiles)
     else:
-        print("%-26s%16s  %8s  %8s  %s" % ("", "Section", "Old", "New", "Percent"))
+        print("{0:<26!s}{1:16!s}  {2:8!s}  {3:8!s}  {4!s}".format("", "Section", "Old", "New", "Percent"))
         if parsed_arguments.sum_sizes:
             compareSizesOfFile(oldFiles, newFiles,
                                parsed_arguments.all_sections,
